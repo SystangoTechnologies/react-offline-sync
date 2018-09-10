@@ -1,0 +1,37 @@
+.green-bg {
+  color: green;
+}
+
+.red-bg {
+  color: red;
+}
+
+.panel-body {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+  margin: 20px;
+  background-color: #fff;
+}
+
+.table {
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+.home {
+  display: flex;
+  flex-flow: row wrap;
+  // justify-content: center;
+  width: 100%;
+  margin: auto;
+}
+.headerContainer {
+  background-color: #eee;
+}
+.header {
+  justify-content: center;
+  margin: auto;
+}
