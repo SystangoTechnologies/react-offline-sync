@@ -4,7 +4,6 @@ const accessToken = document.location.href.split('#')[0].split('=')[1];
 
 export default axios.create({
   withCredentials: true,
-  // baseURL: `https://jsonplaceholder.typicode.com`,
   crossDomain: true,
   headers: {
     "X-Shopify-Access-Token": accessToken && accessToken.toString(),

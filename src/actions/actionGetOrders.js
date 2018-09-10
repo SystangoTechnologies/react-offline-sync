@@ -1,8 +1,8 @@
 import api from './api';
 
-export function getOrders() {
+export function getPosts() {
 	return {
-		type: 'GET_ORDERS',
+		type: 'GET_POSTS',
 		payload: api.get(`https://jsonplaceholder.typicode.com/posts`),
 	};
 };

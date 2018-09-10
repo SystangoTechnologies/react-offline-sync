@@ -3,36 +3,36 @@ const initialState = {
 }
 export default function (state = initialState, action={}) {
   switch (action.type) {		
-  case `GET_ORDERS_LOADING`:
+  case `GET_POSTS_LOADING`:
     return {
         ...state,
         isLoading: true,
         success: false,
       };
 
-  case `GET_ORDERS_SUCCESS`:
+  case `GET_POSTS_SUCCESS`:
   const oldRequest = state.pendingRequest;
   oldRequest.find((index) =>{
-      if(index.type == 'GET_ORDERS'){index.pending = false }
+      if(index.type == 'GET_POSTS'){index.pending = false }
   })
       return {
         ...state,
         isLoading: false,
         success: true,
-        ordersData: action.payload.data.slice(0,4),
+        postsData: action.payload.data.slice(0,4),
         error: false,
         pendingRequest: oldRequest,
       };
 
-  case `GET_ORDERS_ERROR`:
+  case `GET_POSTS_ERROR`:
   const onlineStatus = navigator.onLine;
   if(onlineStatus == false){
       const pendingRequest = {
-          type: 'GET_ORDERS',
+          type: 'GET_POSTS',
           url: action.payload.config.url,
           pending: true
       };
-      const oldRequest = state.pendingRequest.filter((index)=> index.type !== 'GET_ORDERS');
+      const oldRequest = state.pendingRequest.filter((index)=> index.type !== 'GET_POSTS');
       oldRequest.push(pendingRequest);
       return {
           ...state,
