@@ -5,7 +5,7 @@ import './style.scss';
 import { getList, getPosts } from '../../actions/actionGetOrders';
 import Post from '../Post';
 import { ToastContainer } from 'react-toastify';
-import withPendingRequest from '../../hoc';
+import withPendingRequest from '../../withPendingRequest';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 class Home extends React.PureComponent {
