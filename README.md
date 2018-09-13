@@ -1,8 +1,7 @@
 # react-offline-sync
 
 React offline sync with redux and reactstrap.
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
-Check link for details.
+[demo](https://react-offline-sync.firebaseapp.com/)
 
 ### Description
 
