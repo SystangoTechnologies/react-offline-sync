@@ -23,7 +23,7 @@ Your app should now be running on localhost:8000
 
 ## Contributors
 
-Nishchay Gupta Saharsh Goyal
+Nishchay Gupta Saharsh Goyal Rishabh shah
 
 ## License
 
