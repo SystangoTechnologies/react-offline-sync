@@ -4,3 +4,8 @@ export function clearPendingRequest(index) {
         index: index
 	};
 };
+export function clearRequest() {
+	return {
+		type: 'CLEAR_REQUEST'
+	}
+}
