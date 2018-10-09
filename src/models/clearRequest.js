@@ -13,7 +13,6 @@ const clearRequest = (state, action) => {
     };
     if (action.type.includes("SUCCESS")) {
         const requests = JSON.parse(localStorage.getItem('requests'));
-        // console.log('type: - - -', requests);
         for(let key in requests) {
             if(requests[key].type == type){
                 requests.splice(key, 1);

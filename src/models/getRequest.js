@@ -9,6 +9,7 @@ function getType(action) {
 const getRequest = (state, action) => {
     const online = navigator.onLine;
     if (online == false) {
+        const oldLocalRequests = JSON.parse(localStorage.getItem('requests'));
         const { pendingRequest } = state.getState().orders;
         const type = getType(action);
         const pendingReq = {
@@ -19,11 +20,13 @@ const getRequest = (state, action) => {
         };
         const oldRequest = pendingRequest.filter((index) => index.type !== type);
         oldRequest.push(pendingReq);
-        // const localRequest = [
-        //     ...JSON.parse(localStorage.getItem('requests')),
-        //     ...oldRequest
-        // ];
-        localStorage.setItem('requests', JSON.stringify(oldRequest));
+        if(oldLocalRequests && oldLocalRequests.length > 1 ) {
+            const oldReq = oldLocalRequests.filter((index) => index.type !== type);
+            oldReq.push(pendingReq);
+            localStorage.setItem('requests', JSON.stringify(oldReq));
+        }else {
+            localStorage.setItem('requests', JSON.stringify(oldRequest));
+        }
         state.dispatch(addRequest(oldRequest));
     } else {
         state.dispatch(addRequest([]));

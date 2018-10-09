@@ -7,16 +7,32 @@ import Post from '../Post';
 import { ToastContainer } from 'react-toastify';
 import withPendingRequest from '../../withPendingRequest';
 import 'react-toastify/dist/ReactToastify.min.css';
+import { ScaleLoader } from 'react-spinners';
 
 class Home extends React.PureComponent {
   state = {
     name: ''
   };
 
+  componentDidUpdate() {
+    this.props.id && this.props.getForm();
+  }
   render() {
     const { postData, listData, getPost, getList, addForm, id } = this.props;
     const posts = postData ? postData : [];
     const list = listData ? listData : [];
+    const localName = `Name: ${this.props.name}`;
+    if(this.props.isLoading) 
+      return(
+        <div className="loader">
+          <ScaleLoader
+            sizeUnit={"px"}
+            size={20}
+            color={'#123abc'}
+            loading={navigator.onLine}
+          />
+        </div>
+      ); 
     return (
       <React.Fragment>
         <ToastContainer
@@ -24,6 +40,18 @@ class Home extends React.PureComponent {
         <Container className="headerContainer">
           <Row>
             <div className="header"><h1>React Offline Sync</h1></div>
+          </Row>
+          <Row>
+            <div className="header">
+              <h2>You must go offline to see offline-sync in action</h2>
+            </div>
+          </Row>
+          <Row>
+          <Col xs="5"></Col>
+          <Col xs="2">
+            
+          </Col>
+            <Col xs="5"></Col>
           </Row>
         </Container>
           <Row>
@@ -43,7 +71,10 @@ class Home extends React.PureComponent {
             />
             <Button 
               onClick={() => addForm(this.state.name)}
-            >ADD</Button>
+            >ADD</Button> &nbsp;
+             {
+               this.props.name && localName
+             }
           </Col>
           </Row>
         <Row>
@@ -59,7 +90,7 @@ class Home extends React.PureComponent {
                   />
                 )
               })  
-              : <h3>Something went wrong</h3> }
+              : <h3>Click Button to hit the API</h3> }
             </div>
           </Col>
           <Col xs="3">
@@ -73,7 +104,7 @@ class Home extends React.PureComponent {
                   />
                 )
               })  
-              : <h3>Something went wrong</h3> }
+              : <h3>Click Button to hit the API</h3> }
             </div>
           </Col>
         </Row>
@@ -88,7 +119,9 @@ function mapStateToProps(state) {
   return {
     postData: state.orders.postsData,
     listData: state.orders.listData,
-    id: state.orders.id
+    id: state.orders.id,
+    name: state.orders.name,
+    isLoading: state.orders.isLoading
   };
 }
 

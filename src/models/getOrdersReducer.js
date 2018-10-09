@@ -1,9 +1,7 @@
-import { getForm } from "../actions/actionGetOrders";
-
 const initialState = {
     pendingRequest: [],
     success: false,
-    name: [],
+    name:'',
     isLoading: false,
     id: ''
 }
@@ -29,8 +27,8 @@ export default function (state = initialState, action={}) {
         case `GET_POSTS_ERROR`:
             return {
                 ...state,
-                onlineStatus: false,
-                error: true
+                error: true,
+                isLoading: false
             };
         case `GET_LIST_LOADING`:
             return {
@@ -49,7 +47,8 @@ export default function (state = initialState, action={}) {
         case `GET_LIST_ERROR`:
             return {
                 ...state,
-                error: true
+                error: true,
+                isLoading: false
             };
         case `REMOVE_PENDING_REQUEST`:
         const request = state.pendingRequest;
@@ -82,7 +81,8 @@ export default function (state = initialState, action={}) {
         case `ADD_FORM_ERROR`:
             return {
                 ...state,
-                error: true
+                error: true,
+                isLoading: false
             };
         case `GET_FORM_LOADING`:
             return {
@@ -91,19 +91,28 @@ export default function (state = initialState, action={}) {
                 success: false
             };
         case `GET_FORM_SUCCESS`:
-        const localId = action.payload.data.filter((index)=> index == id);
-        console.log('GET_FORM_SUCCESS', localId);
+        let localRes = [];
+        for(let key in action.payload.data) {
+            localRes.push({
+                ...action.payload.data[key],
+                id: key
+            });
+        }
+        let localName = localRes.filter(index => index.id == state.id);
+        console.log('GET_FORM_SUCCESS', localName);
             return {
                 ...state,
                 isLoading: false,
                 success: true,
-                name: action.payload.data,
+                name: localName[0] ? localName[0].name : state.name,
                 error: false,
+                id: ''
             };
         case `GET_FORM_ERROR`:
             return {
                 ...state,
-                error: true
+                error: true,
+                isLoading: false
             };
         case `ADD_REQUEST`:
             return {
@@ -111,10 +120,6 @@ export default function (state = initialState, action={}) {
                 pendingRequest: action.oldRequest
             };
         case `REMOVE_REQUEST`:
-        // const req = action.oldRequest;
-        // const newRequest = state.pendingRequest;
-        // newRequest.pop()  
-        // console.log('in reducer remove request:', action.oldRequest);
             return {
                 ...state,
                 pendingRequest: action.oldRequest

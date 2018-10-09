@@ -23,8 +23,14 @@ React offline sync with redux and reactstrap.
 
 ### Usage
 
+Step: 1 
+    import withPendingRequest from 'react-offline-sync';
+step: 2
     export default connect(mapStateToProps, mapDispatchToProps)(withPendingRequest(Home));
-
+step: 3
+    import offlineMiddleware from 'react-offline-sync';
+step: 4
+    applyMiddleware(offlineMiddleware);
   
 
 

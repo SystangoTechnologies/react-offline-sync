@@ -6,7 +6,7 @@ import { getPendingRequests } from '../actions/actionGetOrders';
 import { clearPendingRequest } from '../actions/actionClearRequest';
 
 const withPendingRequest = (WrappedComponent) => {
-  return class extends Component {
+  return class ComponentEnhancer extends Component {
     constructor(props) {
       super(props);
     }
@@ -16,29 +16,30 @@ const withPendingRequest = (WrappedComponent) => {
         pendingRequest,
         getPendingRequest
       } = this.props;
-      window.addEventListener("online", () => {
-        const ol = navigator.onLine;
-        if(ol){
-          const {
-            pendingRequest,
-            getPendingRequest
-          } = this.props;
-          let pr = pendingRequest ? pendingRequest : [];
-          const requests = JSON.parse(localStorage.getItem('requests'));
-          if(requests.length > 0 && pendingRequest.length < 1) {
-            pr = requests;
-          }
-          pr.filter((index) => index.pending == true).map((index) => {
-            getPendingRequest(index.type, index.url, index.data);
-          });
-          pendingRequest && pendingRequest.filter(index => index.pending == false).map(() => this.clearRequest());
-          toast.success('You are now Online', {
-            position: "top-right",
-            autoClose: 5000,
-          });
+      window.addEventListener("online", () => this.listener(this.props));
+    }
+
+    listener() {
+      const ol = navigator.onLine;
+      if (ol) {
+        const {
+          pendingRequest,
+          getPendingRequest
+        } = this.props;
+        let pr = pendingRequest ? pendingRequest : [];
+        const requests = JSON.parse(localStorage.getItem('requests'));
+        if (requests.length > 1 && pendingRequest.length <= requests.length) {
+          pr = requests;
         }
-        // console.log('Yay!!', ol);
-      });
+        pr.filter((index) => index.pending == true).map((index) => {
+          getPendingRequest(index.type, index.url, index.data);
+        });
+        pendingRequest && pendingRequest.filter(index => index.pending == false).map(() => this.clearRequest());
+        toast.success('You are now Online', {
+          position: "top-right",
+          autoClose: 5000,
+        });
+      }
     }
     clearRequest() {
       const {
@@ -60,7 +61,7 @@ const withPendingRequest = (WrappedComponent) => {
     }
 
     render() {
-      return <React.Fragment><WrappedComponent {...this.props}/></React.Fragment>
+      return <WrappedComponent {...this.props}/>
     }
   }
 }
